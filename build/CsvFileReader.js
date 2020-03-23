@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = __importDefault(require("fs"));
+var utils_1 = require("./utils");
 var CsvFileReader = /** @class */ (function () {
     function CsvFileReader(filename) {
         this.filename = filename;
@@ -11,12 +12,22 @@ var CsvFileReader = /** @class */ (function () {
     }
     CsvFileReader.prototype.read = function () {
         this.data = fs_1.default
-            .readFileSync('football.csv', {
+            .readFileSync(this.filename, {
             encoding: 'utf-8',
         })
             .split('\n')
             .map(function (row) {
             return row.split(',');
+        })
+            .map(function (row) {
+            return [
+                utils_1.dateStringtoDate(row[0]),
+                row[1],
+                row[2],
+                parseInt(row[3]),
+                parseInt(row[4]),
+                row[5],
+            ];
         });
     };
     return CsvFileReader;
